@@ -1,17 +1,12 @@
-package DynamicArray02;
+package _03LinkedList;
 
-public class ArrayList<E> {
-    /**
-     * 元素的数量
-     */
-    private int size;
+public class ArrayList<E> extends AbstractList<E> {
     /**
      * 所有的元素
      */
     private E[] elements;
 
     private static final int DEFAULT_CAPACITY = 10;
-    private static final int ELEMENT_NOT_FOUND = -1;
 
     public ArrayList(int capacity) {
         capacity = (capacity < DEFAULT_CAPACITY)? DEFAULT_CAPACITY : capacity;
@@ -30,34 +25,7 @@ public class ArrayList<E> {
         }
         size = 0;
     }
-    /**
-     * 元素的数量
-     */
-    public int size() {
-        return size;
-    }
-    /*
-    * 是否为空
-    * @return
-    * */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-    /**
-     * 是否包含某个元素
-     * @param element
-     * @return
-     */
-    public boolean contains(E element) {
-        return indexOf(element) != ELEMENT_NOT_FOUND;
-    }
-    /**
-     * 添加元素到尾部
-     * @param element
-     */
-    public void add(E element) {
-        add(size, element);
-    }
+
     /**
      * 获取index位置的元素
      * @param index
@@ -65,7 +33,8 @@ public class ArrayList<E> {
      */
     public E get(int index) {
         rangeCheck(index);
-        return elements[index];
+        //index * 4 + 数组的首地址
+        return elements[index];// O(1)
     }
     /**
      * 设置index位置的元素
@@ -73,7 +42,7 @@ public class ArrayList<E> {
      * @param element
      * @return 原来的元素
      */
-    public E set(int index, E element) {
+    public E set(int index, E element) {// O(1)
         rangeCheck(index);
         E old = elements[index];
         elements[index] = element;
@@ -85,6 +54,11 @@ public class ArrayList<E> {
      * @param element
      */
     public void add(int index, E element) {
+        /*
+        最好的情况-->末尾添加元素-->O(1)
+        最坏的情况-->最前面添加元素-->O(n)
+        平均-->O((1+2+3+...+n)/n)-->O(n)
+         */
         rangeCheckForAdd(index);
         //size = 5
         ensureCapacity(size + 1);
@@ -93,13 +67,19 @@ public class ArrayList<E> {
         }
         elements[index] = element;
         size++;
-    }
+    }// O(n) n是数据规模
+    // size是数据规模
     /**
      * 删除index位置的元素
      * @param index
      * @return
      */
     public E remove(int index) {
+        /**
+         * 最好的情况-->末尾删除元素-->O(1)
+         * 最坏的情况-->最前面删除元素-->O(n)
+         * 平均-->O((1+2+3+...+n)/n)-->O(n)
+         */
         rangeCheck(index);
         E old = elements[index];
         for (int i = index + 1; i < size; i++) {
@@ -156,21 +136,7 @@ public class ArrayList<E> {
         elements = newElements;
         System.out.println(oldCapacity+"扩容为"+newCapacity);
     }
-    private void outOfBound(int index) {
-        throw new IndexOutOfBoundsException("Index:" + index + " Size:" + size);
-    }
 
-    private void rangeCheck(int index) {
-        if(index < 0 || index >= size) {
-            outOfBound(index);
-        }
-    }
-
-    private void rangeCheckForAdd(int index) {
-        if(index < 0 || index > size) {
-            outOfBound(index);
-        }
-    }
     @Override
     public String toString() {
         //size = 3, [99, 88, 77]

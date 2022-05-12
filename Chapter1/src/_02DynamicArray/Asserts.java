@@ -1,4 +1,4 @@
-package DynamicArray02;
+package _02DynamicArray;
 
 public class Asserts {
 	public static void test(boolean value) {

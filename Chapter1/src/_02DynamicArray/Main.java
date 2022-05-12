@@ -1,4 +1,4 @@
-package DynamicArray02;
+package _02DynamicArray;
 
 public class Main {
     public static void main(String[] args) {

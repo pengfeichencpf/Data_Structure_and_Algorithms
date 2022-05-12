@@ -1,4 +1,4 @@
-package Complexity01;
+package _01Complexity;
 
 public class Main {
     /*0 1 2 3 4 5 6 7
