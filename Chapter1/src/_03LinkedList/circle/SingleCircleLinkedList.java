@@ -12,6 +12,11 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
             this.element = element;
             this.next = next;
         }
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            sb.append(element).append("_").append(next.element);
+            return sb.toString();
+        }
     }
 
     @Override
@@ -44,9 +49,10 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
     public void add(int index, E element) {
         rangeCheckForAdd(index);
         if (index == 0) {
-            first = new Node<>(element,first);
-            Node<E> last = (size == 0) ? first : node(index - 1);
-            last.next = first;
+            Node<E> newFirst = new Node<>(element,first);
+            Node<E> last = (size == 0) ? newFirst : node(size - 1);
+            last.next = newFirst;
+            first = newFirst;
         } else {
             Node<E> prev = node(index - 1);
             prev.next = new Node<>(element, prev.next);
@@ -59,7 +65,13 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
         rangeCheck(index);
         Node<E> node = first;
         if (index == 0) {
-            first = first.next;
+            if (size == 1) {
+                first = null;
+            } else {
+                Node<E> last = node(size - 1);
+                first = first.next;
+                last.next = first;
+            }
         } else {
             Node<E> prev = node(index - 1);
             node = prev.next;
@@ -75,16 +87,17 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
             Node<E> node = first;
             for (int i = 0; i < size; i++) {
                 if (node.element == null) {
-                    node = node.next;
                     return i;
                 }
+                node = node.next;
             }
         }else {
+            Node<E> node = first;
             for (int i = 0; i < size; i++) {
-                Node<E> node = first;
                 if (element.equals(node.element)) {
                     return i;
                 }
+                node = node.next;
             }
         }
         return ELEMENT_NOT_FOUND;
@@ -114,7 +127,7 @@ public class SingleCircleLinkedList<E> extends AbstractList<E> {
             if (i != 0) {
                 string.append(",");
             }
-            string.append(node.element);
+            string.append(node);
             node = node.next;
         }
         string.append("]");

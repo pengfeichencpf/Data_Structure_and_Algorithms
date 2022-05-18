@@ -1,5 +1,8 @@
 package _03LinkedList;
 
+import _03LinkedList.circle.CircleLinkedList;
+import _03LinkedList.circle.SingleCircleLinkedList;
+
 public class Main {
     static void testList(List<Integer> list) {
         list.add(11);
@@ -25,6 +28,19 @@ public class Main {
         System.out.println(list);
     }
 
+    static void josephus() {
+        CircleLinkedList<Integer> list = new CircleLinkedList<>();
+        for (int i = 1; i <= 8; i++) {
+            list.add(i);
+        }
+        //指向头结点
+        list.reset();
+        while (!list.isEmpty()) {
+            list.next();
+            list.next();
+            System.out.println(list.remove());
+        }
+    }
     public static void main(String[] args) {
         //因为ArrayList和LinkedList都是实现List这个接口，所以其实可以写成
         //左边直接写成List
@@ -50,7 +66,12 @@ public class Main {
 //            list3.remove(0);
 //        }
 //        System.out.println(list);
-        testList(new ArrayList<>());
-        testList(new LinkedList<>());
+
+
+//        testList(new ArrayList<>());
+//        testList(new LinkedList<>());
+//        testList(new SingleCircleLinkedList<>());
+//        testList(new CircleLinkedList<>());
+        josephus();
     }
 }
