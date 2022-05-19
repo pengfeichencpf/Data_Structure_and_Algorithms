@@ -1,23 +1,17 @@
 package _02UnionFind.union;
 
-public class UnionFind_QU_S extends UnionFind{
+/**
+ * Quick_Union - 基于size优化
+ */
+public class UnionFind_QU_S extends UnionFind_QU{
+    private int[] sizes;
     public UnionFind_QU_S(int capacity) {
         super(capacity);
-    }
-
-    /**
-     * 通过parent链表不断地向上找，直到找到根节点
-     * @param v
-     * @return
-     */
-    public int find(int v) {
-        rangeCheck(v);
-        while (v != parents[v]) {
-            v = parents[v];
+        sizes = new int[capacity];
+        for (int i = 0; i < sizes.length; i++) {
+            sizes[i] = 1;
         }
-        return v;
     }
-
     /**
      * 将v1的根节点嫁接到v2的根节点上
      * @param v1
@@ -28,6 +22,12 @@ public class UnionFind_QU_S extends UnionFind{
         int p2 = find(v2);
         if (p1 == p2) return;
 
-        parents[p1] = p2;
+        if (sizes[p1] < sizes[p2]) {
+            parents[p1] = p2;
+            sizes[p2] += sizes[p1];
+        } else {
+            parents[p2] = p1;
+            sizes[p1] += sizes[p2];
+        }
     }
 }
